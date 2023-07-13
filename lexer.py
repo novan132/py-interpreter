@@ -14,6 +14,7 @@ class Lexer:
                 self.token = self.extract_number()
             elif self.char in Lexer.operations:
                 self.token = Operation(self.char)
+                self.move()
             self.tokens.append(self.token)
 
         return self.tokens
@@ -50,5 +51,3 @@ class Operation(Token):
     def __init__(self, value):
         super().__init__("OP", value)
 
-lexer = Lexer("5 + 3")
-lexer.tokenize()
