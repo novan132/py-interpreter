@@ -1,6 +1,8 @@
 class Lexer:
     digits = "0123456789"
     operations = "+-/*"
+    stopwords = [" "]
+
     def __init__(self, text):
         self.text = text
         self.idx = 0
@@ -15,6 +17,10 @@ class Lexer:
             elif self.char in Lexer.operations:
                 self.token = Operation(self.char)
                 self.move()
+            elif self.char in Lexer.stopwords:
+                self.move()
+                continue
+
             self.tokens.append(self.token)
 
         return self.tokens
