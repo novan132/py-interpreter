@@ -1,3 +1,4 @@
+from tokens import Integer, Float
 class Interpreter:
     def __init__(self, tree):
         self.tree = tree
@@ -16,11 +17,25 @@ class Interpreter:
         right = getattr(self, f"read_{right_type}")(right.value)
 
         if op.value == "+":
-            return left + right
+            output =  left + right
 
-    def interpret(self):
-        left_node = self.tree[0]
-        right_node = self.tree[2]
-        operator = self.tree[1]
+        return Integer(output) if (left_type == "INT" and right_type == "INT") else Float(output)
+
+
+    def interpret(self, tree=None):
+        if tree is None:
+            tree = self.tree
+
+        # evaluate left subtree
+        left_node = tree[0]
+        if isinstance(left_node, list):
+            left_node = self.interpret(left_node)
+
+        # evaluate right subtree
+        right_node = tree[2]
+        if isinstance(right_node, list):
+            right_node = self.interpret(right_node)
+
+        operator = tree[1]
 
         return self.compute_bin(left_node, operator, right_node)
