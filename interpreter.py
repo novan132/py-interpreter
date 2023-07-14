@@ -2,16 +2,18 @@ class Interpreter:
     def __init__(self, tree):
         self.tree = tree
 
-    def compute_bin(self, left, op, right):
-        if left.type == "INT":
-            left = int(left.value)
-        elif left.type == "FLT":
-            left = float(left.value)
+    def read_INT(self, value):
+        return int(value)
 
-        if right.type == "INT":
-            right = int(right.value)
-        elif right.type == "FLT":
-            right = float(right.value)
+    def read_FLT(self, value):
+        return float(value)
+
+    def compute_bin(self, left, op, right):
+        left_type = left.type
+        right_type = right.type
+
+        left = getattr(self, f"read_{left_type}")(left.value)
+        right = getattr(self, f"read_{right_type}")(right.value)
 
         if op.value == "+":
             return left + right
