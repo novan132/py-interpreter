@@ -8,8 +8,9 @@ while True:
     tokens = tokenizer.tokenize()
     print(tokens)
 
-    # parser = Parser(tokens)
-    # tree = parser.parse()
+    parser = Parser(tokens)
+    tree = parser.parse()
+    print(tree)
 
     # interpreter = Interpreter(tree)
     # result = interpreter.interpret()
