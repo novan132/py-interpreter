@@ -1,7 +1,8 @@
 from tokens import Integer, Float
 class Interpreter:
-    def __init__(self, tree):
+    def __init__(self, tree, base):
         self.tree = tree
+        self.data = base
 
     def read_INT(self, value):
         return int(value)

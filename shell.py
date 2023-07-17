@@ -1,6 +1,10 @@
 from lexer import Lexer
 from parser import Parser
 from interpreter import Interpreter
+from data import Data
+
+
+base = Data()
 
 while True:
     text = input("> ")
@@ -12,8 +16,8 @@ while True:
     tree = parser.parse()
     print(tree)
 
-    # interpreter = Interpreter(tree)
-    # result = interpreter.interpret()
-    # print(result)
+    interpreter = Interpreter(tree, base)
+    result = interpreter.interpret()
+    print(result)
     
 
