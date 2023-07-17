@@ -6,12 +6,13 @@ while True:
     text = input("> ")
     tokenizer = Lexer(text)
     tokens = tokenizer.tokenize()
+    print(tokens)
 
-    parser = Parser(tokens)
-    tree = parser.parse()
+    # parser = Parser(tokens)
+    # tree = parser.parse()
 
-    interpreter = Interpreter(tree)
-    result = interpreter.interpret()
-    print(result)
+    # interpreter = Interpreter(tree)
+    # result = interpreter.interpret()
+    # print(result)
     
 
