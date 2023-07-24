@@ -12,12 +12,16 @@ class Parser:
             self.move()
             expression = self.boolean_expression()
             return expression
+        elif self.token.value == "not":
+            operator = self.token
+            self.move()
+            return [operator, self.boolean_expression()]
         elif self.token.type.startswith("VAR"):
             return self.token
         elif self.token.value == "+" or self.token.value == "-":
             operator = self.token
             self.move()
-            operand = self.factor()
+            operand = self.boolean_expression()
             return [operator, operand]
 
     def term(self):
@@ -78,7 +82,7 @@ class Parser:
                 self.move()
                 right_node = self.boolean_expression()
                 return [left_node, operation, right_node]
-        elif self.token.type == "INT" or self.token.type == "FLT" or self.token.type == "OP":
+        elif self.token.type == "INT" or self.token.type == "FLT" or self.token.type == "OP" or self.token.value == "not":
             # arithmetic operation
             return self.boolean_expression()
 
