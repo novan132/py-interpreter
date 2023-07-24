@@ -32,13 +32,24 @@ class Parser:
 
         return left_node
 
-    # <bool_expr> = <expr> and | or <expr>
-    def boolean_expression(self):
+    # <comp_expr> = <expr> < | > | .. <expr>
+    def comp_expression(self):
         left_node = self.expression()
-        while self.token.type == "BOOL":
+        while self.token.type == "COMP":
             operation = self.token
             self.move()
             right_node = self.expression()
+            left_node = [left_node, operation, right_node]
+
+        return left_node
+
+    # <bool_expr> = <expr> and | or <expr>
+    def boolean_expression(self):
+        left_node = self.comp_expression()
+        while self.token.type == "BOOL":
+            operation = self.token
+            self.move()
+            right_node = self.comp_expression()
             left_node = [left_node, operation, right_node]
 
         return left_node
