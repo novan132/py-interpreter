@@ -1,4 +1,4 @@
-from tokens import Token, Integer, Float, Operation, Declaration, Variable, Boolean, Comparison
+from tokens import Token, Integer, Float, Operation, Declaration, Variable, Boolean, Comparison, Reserved
 
 class Lexer:
     digits = "0123456789"
@@ -9,6 +9,7 @@ class Lexer:
     booleans = ["and", "or", "not"]
     comparisons = [">", "<", ">=", "<=", "?="]
     special_characters = "><=?"
+    reserved = ["if", "elif", "else", "do"]
 
     def __init__(self, text):
         self.text = text
@@ -33,6 +34,8 @@ class Lexer:
                     self.token = Declaration(word)
                 elif word in Lexer.booleans:
                     self.token = Boolean(word)
+                elif word in Lexer.reserved:
+                    self.token = Reserved(word)
                 else:
                     self.token = Variable(word)
             elif self.char in Lexer.special_characters:

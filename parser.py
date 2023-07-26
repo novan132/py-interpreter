@@ -36,6 +36,40 @@ class Parser:
 
         return left_node
 
+    def if_statement(self):
+        self.move()
+        condition = self.boolean_expression()
+
+        if self.token.value == "do":
+            self.move()
+            action = self.statement()
+            return condition, action
+        elif self.tokens[self.idx - 1].value == "do":
+            action = self.statement()
+            return condition, action
+
+    def if_statements(self):
+        conditions = []
+        actions = []
+        if_statement = self.if_statement()
+
+        conditions.append(if_statement[0])
+        actions.append(if_statement[1])
+
+        while self.token.value == "elif":
+            if_statement = self.if_statement()
+            conditions.append(if_statement[0])
+            actions.append(if_statement[1])
+
+        if self.token.value == "else":
+            self.move()
+            self.move()
+            else_action = self.statement()
+
+            return [conditions, actions, else_action]
+
+        return [conditions, actions]
+
     # <comp_expr> = <expr> < | > | .. <expr>
     def comp_expression(self):
         left_node = self.expression()
@@ -85,6 +119,8 @@ class Parser:
         elif self.token.type == "INT" or self.token.type == "FLT" or self.token.type == "OP" or self.token.value == "not":
             # arithmetic operation
             return self.boolean_expression()
+        elif self.token.value == "if":
+            return [self.token, self.if_statements()]
 
     def parse(self):
         return self.statement()
